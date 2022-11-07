@@ -1,0 +1,36 @@
+.title_headers {
+  margin: 3rem 0 1rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+.cat_title {
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: var(--secondary-bg);
+}
+.cat_title:hover {
+  background-color: var(--default-bg);
+  color: var(--default-white);
+}
+
+.scrolling_row {
+  display: -webkit-box;
+  overflow-x: scroll;
+  margin-bottom: 2rem;
+  gap: 30px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrolling_row::-webkit-scrollbar {
+  display: none;
+}
+.homepage_banner {
+  width: 100%;
+}
+
+.sections {
+  margin-bottom: 5rem;
+}

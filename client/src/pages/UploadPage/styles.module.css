@@ -1,0 +1,21 @@
+.book_upload_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  justify-content: space-between;
+}
+.book_upload_h3 {
+  text-align: left;
+  margin: 1rem 0;
+  font-weight: 900;
+}
+.upload_page_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+@media screen and (max-width: 600px) {
+  .book_upload_container {
+    gap: 1rem;
+  }
+}
