@@ -1,0 +1,7 @@
+.default_btn {
+  background-color: var(--default-bg);
+  width: 250px;
+  color: white;
+  padding: 12px;
+  border-radius: 3px;
+}
