@@ -1,0 +1,34 @@
+.header_navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  align-items: center;
+}
+.banner {
+  display: flex;
+  height: 150px;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--default-bg);
+  gap: 10px;
+  padding: 0 10px;
+  border-radius: 10px;
+}
+.pink_heart {
+  background: white;
+  color: deeppink;
+  font-size: 40px;
+  padding: 5px;
+  border-radius: 10px;
+}
+.banner_text {
+  color: var(--default-white);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 600px) {
+  .banner_text {
+    font-size: 1.2rem;
+  }
+}
