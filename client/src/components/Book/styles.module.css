@@ -1,0 +1,27 @@
+.book {
+  width: 200px;
+}
+.book_img {
+  display: flex;
+  margin-bottom: 5px;
+}
+.book_img img {
+  width: 100%;
+}
+
+.book_details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.book_details p {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-bottom: 3px;
+  font-size: 1.05rem;
+}
+.book_details p span:first-child {
+  font-weight: 800;
+}
