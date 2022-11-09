@@ -2,7 +2,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 const handleNewUser = async (req, res) =>{
     const {firstname, lastname, city,email, password } = req.body;
     if (!email || !password) return res.status(400).json({"message":"Email and password are required "});
