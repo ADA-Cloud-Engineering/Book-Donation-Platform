@@ -1,11 +1,12 @@
 const bcrypt = require('bcrypt');
-const Book = require('../model/Book');
+const Book = require('../models/Book');
 const cloudinary = require("../utils/Cloudinary");
 
 
 const upload = async (req, res) =>{
     try{
         const result = await cloudinary.uploader.upload(req.file.path);
+        console.log(result);
         let book = new Book({
             title: req.body.title,
             author: req.body.author,
