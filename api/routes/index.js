@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const verifyJWT = require('../middleware/verifyJWT');
+const userController  = require('../controller/userController');
+const bookController  = require('../controller/bookController');
+const upload = require("../utils/Multer");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/register', userController.handleNewUser);
+router.post('/login', userController.handleLogin);
+router.get('/list', bookController.list);
+router.post('/upload', verifyJWT, upload.single('file'), bookController.upload);
 
 module.exports = router;
+
