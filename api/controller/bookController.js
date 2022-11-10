@@ -3,12 +3,15 @@ const Book = require('../models/Book');
 const cloudinary = require("../utils/Cloudinary");
 
 
+
+
 const upload = async (req, res) =>{
     try{
+        console.log(req.user._doc._id);
         const result = await cloudinary.uploader.upload(req.file.path);
-        console.log(result);
         let book = new Book({
             title: req.body.title,
+            imageUrl : req.body.imageUrl,
             author: req.body.author,
             referencenumber: req.body.referencenumber,
             format: req.body.format,
@@ -18,6 +21,7 @@ const upload = async (req, res) =>{
             publisher: req.body.publisher,
             weight: req.body.weight,
             downloadurl: result.secure_url,
+            userId : req.user._doc._id
           });
 
         res.status(201).json({'message': 'Book uploaded successfully', data : {
@@ -30,4 +34,13 @@ const upload = async (req, res) =>{
     }
 }
 
-module.exports = {upload};
+const list  =  async (req, res) =>{
+   const param = req.query;
+    const books = await Book.find({...param});
+
+    res.status(200).json({'message': 'Fetched books successfully', data : [
+        ...books
+    ]});
+}
+
+module.exports = {upload, list};

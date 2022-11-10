@@ -38,11 +38,22 @@ const bookSchema = new Schema({
         type: String, 
         required: true
     },
+    imageUrl: {
+        type: String, 
+        required: true
+    },
     downloadurl:{
         type: String, 
         required: true
+    },
+    category:{
+        type: String, 
+        required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
-
 });
 
 module.exports = mongoose.model('Book', bookSchema)

@@ -4,11 +4,13 @@ const jwt = require('jsonwebtoken');
 
 const handleNewUser = async (req, res) =>{
     const {firstname, lastname, city,email, password } = req.body;
+    console.log([email,password]);
     if (!email || !password) return res.status(400).json({"message":"Email and password are required "});
 
     try{
         // check for duplicate email in the db
-        const duplicate = await User.findOne({email}).exec();
+        const duplicate = await User.findOne({emailaddress : email}).exec();
+        console.log(duplicate);
         if(duplicate) return res.sendStatus(409);
         //password encryption
         const hashedPwd = await bcrypt.hash(password, 8);
@@ -21,7 +23,6 @@ const handleNewUser = async (req, res) =>{
             "firstname": firstname,
             "lastname": lastname,
             "city": city,
-
         });
         console.log(result);
 
