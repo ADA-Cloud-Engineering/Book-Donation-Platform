@@ -3,10 +3,29 @@
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
+  font-family: "Poppins", sans-serif;
 }
-
+a:visited {
+  color: inherit;
+}
+input[type="file"]::file-selector-button {
+  display: none;
+  /* Add properties here */
+}
+.App {
+  text-align: center;
+  padding: 0 30px;
+  width: 100%;
+}
 :root {
   --default-white: #fff;
   --default-bg: #63bfcc;
   --secondary-bg: #f3f3f3;
+  --error-text: red;
+}
+
+@media screen and (max-width: 600px) {
+  .App {
+    padding: 0 15px;
+  }
 }

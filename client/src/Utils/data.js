@@ -180,4 +180,8 @@ export const categories = [
   "Fantasy",
   "Thriller",
   "Religion",
+  "Food/Recipes",
+  "Health",
+  "Tech",
+  "History",
 ];

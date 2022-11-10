@@ -5,6 +5,7 @@ import Navbar from "../../components/Header/Navbar";
 import styles from "./styles.module.css";
 import { allBooks } from "../../Utils/data";
 import Button from "../../components/Button/Button";
+import { Link } from "react-router-dom";
 
 const BookDetails = () => {
   const location = useLocation();
@@ -15,13 +16,9 @@ const BookDetails = () => {
     setBook(res);
   }, [location.state.id]);
 
-  const downloadBook = () => {
-    console.log("downloaded");
-  };
-
   return (
     <div>
-      <Navbar />
+      <Navbar auth />
       <Banner />
       <div className={styles.book_container}>
         <div
@@ -34,7 +31,9 @@ const BookDetails = () => {
             <span>Book By:</span>
             <span>{book.author}</span>
           </p>
-          <Button text="Download" onClick={downloadBook} />
+          <a href={book.dowmloadUrl} target="_blank">
+            <Button text="Download" />
+          </a>
 
           <h1>Book Overview</h1>
           <p>

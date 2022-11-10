@@ -15,7 +15,7 @@ const SearchBar = ({ data, placeholder, searchParam, onClick }) => {
   }, [input]);
 
   return (
-    <div className={showSearch && styles.search_container}>
+    <div className={showSearch ? styles.search_container : null}>
       {showSearch && (
         <div className={styles.search_bar}>
           <input
@@ -27,7 +27,10 @@ const SearchBar = ({ data, placeholder, searchParam, onClick }) => {
             <div className={styles.search_output}>
               <div
                 className={styles.search_overlay}
-                onClick={() => setShowSearch(false)}
+                onClick={() => {
+                  setShowSearch(false);
+                  setInput("");
+                }}
               ></div>
               {searchedData.map((dat) => (
                 <div

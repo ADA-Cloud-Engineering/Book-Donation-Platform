@@ -2,6 +2,7 @@
   margin: 3rem 0 1rem 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .cat_title {
   width: 200px;
@@ -33,4 +34,10 @@
 
 .sections {
   margin-bottom: 5rem;
+}
+
+@media screen and (max-width: 712px) {
+  h3 {
+    font-size: 15px;
+  }
 }

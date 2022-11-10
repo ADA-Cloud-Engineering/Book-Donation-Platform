@@ -2,8 +2,10 @@
   padding: 0.5rem 1rem;
   border-radius: 3px;
   background-color: var(--secondary-bg);
-  width: 45%;
+  width: 100%;
   border-radius: 10px;
+  position: relative;
+  cursor: pointer;
 }
 .input input,
 select {
@@ -12,10 +14,21 @@ select {
   outline: none;
   width: 100%;
   margin: 5px 0px;
-  /* border-bottom: 0.1px solid var(--default-bg); */
+}
+.error {
+  border: 2px solid var(--default-bg);
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+.errorText {
+  position: absolute;
+  font-size: 12px;
+  left: 0;
+  bottom: -28px;
+  color: var(--error-text);
 }
 @media screen and (max-width: 600px) {
   .input {
-    width: 100%;
+    width: 100% !important;
   }
 }

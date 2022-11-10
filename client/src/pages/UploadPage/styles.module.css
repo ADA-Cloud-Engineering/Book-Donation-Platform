@@ -14,8 +14,8 @@
   justify-content: center;
   margin-top: 3rem;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 714px) {
   .book_upload_container {
-    gap: 1rem;
+    gap: 2rem;
   }
 }
