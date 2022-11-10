@@ -21,7 +21,8 @@ const upload = async (req, res) =>{
             publisher: req.body.publisher,
             weight: req.body.weight,
             downloadurl: result.secure_url,
-            userId : req.user._doc._id
+            userId : req.user._doc._id,
+            category : req.body.category 
           });
 
         res.status(201).json({'message': 'Book uploaded successfully', data : {
