@@ -1,0 +1,6 @@
+.footer_container {
+  color: var(--default-bg);
+  margin-top: 2rem;
+  padding: 2rem;
+  font-weight: 900;
+}

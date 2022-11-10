@@ -1,0 +1,27 @@
+.profile_section {
+  margin: 2rem 0;
+  padding: 1rem;
+}
+h2 {
+  text-align: left;
+}
+.section {
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  padding: 3rem 0rem;
+}
+.profile_details {
+  gap: 3rem;
+  align-items: center;
+}
+.profile_avatar {
+  flex: 1;
+  font-size: 6rem;
+  background-color: lightgray;
+  padding: 1rem 2rem;
+}
+.profile_info {
+  flex: 3;
+  display: flex;
+  justify-content: flex-start;
+}
