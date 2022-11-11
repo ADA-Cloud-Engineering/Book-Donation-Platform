@@ -5,14 +5,15 @@ import Button from "../../components/Button/Button";
 import Banner from "../../components/Header/Banner";
 import Navbar from "../../components/Header/Navbar";
 import banner from "../../assets/images/Banner.png";
-import { allBooks, categories, recentBooks } from "../../Utils/data";
+import { categories, recentBooks } from "../../Utils/data";
 import styles from "./styles.module.css";
 import { getAllBooks } from "../../Services/Book";
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
+  const [allBooks, setAllBooks] = useState([]);
   const getBooksByCategory = (cat) => {
-    let filteredBooks = books.filter((b) => {
+    let filteredBooks = allBooks.filter((b) => {
       return b.category.toLowerCase() === cat.toLowerCase();
     });
     setBooks(filteredBooks);
@@ -22,6 +23,7 @@ const HomePage = () => {
     let response = await getAllBooks();
     let data = response.data.data;
     setBooks(data);
+    setAllBooks(data);
   };
 
   useEffect(() => {

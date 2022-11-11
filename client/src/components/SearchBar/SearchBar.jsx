@@ -37,7 +37,7 @@ const SearchBar = ({ data, placeholder, searchParam, onClick }) => {
                   key={dat?.[searchParam]}
                   className={styles.search_output_div}
                   onClick={() => {
-                    onClick(dat.id);
+                    onClick(dat);
                     setShowSearch(false);
                   }}
                 >
