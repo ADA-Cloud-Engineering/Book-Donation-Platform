@@ -125,7 +125,7 @@ class Register extends Component {
               onClick={() => this.handleCheckForm()}
               loading={this.state.loading}
             />
-            <p>
+            <p className={styles.auth_other}>
               Already have an account? <Link to="/login"> Login</Link>
             </p>
           </div>

@@ -23,6 +23,12 @@
   color: var(--error-text);
   font-size: 0.7rem;
 }
+.auth_other {
+  font-size: 0.9rem;
+}
+.auth_other a {
+  color: red;
+}
 @media screen and (max-width: 712px) {
   .auth_container {
     gap: 2rem;

@@ -13,8 +13,6 @@ const axiosInstance = Axios.create({
   // credentials: "include",
 });
 export default axiosInstance;
-
 export const uploadInstance = axios.create({
   baseURL: baseURL,
-  headers: { Authorization: "Bearer " + token },
 });

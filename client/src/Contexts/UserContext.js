@@ -1,9 +1,12 @@
 import React, { useEffect, useReducer } from "react";
 import { createContext } from "react";
+let token = localStorage.getItem("user_token");
+let books = JSON.parse(localStorage.getItem("books"));
 
 const initialState = {
-  isLogged: false,
-  user_token: "",
+  isLogged: token ? true : false,
+  user_token: token,
+  user_books: books ? books : [],
 };
 
 const reducer = (state, action) => {
@@ -19,6 +22,11 @@ const reducer = (state, action) => {
         ...state,
         user_token: payload,
       };
+    case "SET_USER_BOOKS":
+      return {
+        ...state,
+        user_books: payload,
+      };
     default:
       return state;
   }
@@ -33,6 +41,7 @@ export const UserContextProvider = (props) => {
       value={{
         isLogged: state.isLogged,
         user_token: state.user_token,
+        user_books: state.user_books,
         dispatch,
       }}
     >

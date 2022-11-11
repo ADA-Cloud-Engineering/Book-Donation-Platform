@@ -1,5 +1,5 @@
 import Button from "../Button/Button";
-import styles from "./modal.css";
+import styles from "./styles.module.css";
 
 const Modal = ({ handleClose, show, message, doAction, doActionMessage }) => {
   const showHideClassName = show
@@ -11,10 +11,12 @@ const Modal = ({ handleClose, show, message, doAction, doActionMessage }) => {
       <section className={styles.modal_main}>
         {message}
 
-        <div>
-          {doAction && <Button onClick={doAction} text={doActionMessage} />}
+        <div className={styles.modal_action_btns}>
+          {doAction && (
+            <Button onClick={() => doAction()} text={doActionMessage} />
+          )}
 
-          <Button onClick={handleClose} text="Cancel" />
+          <Button onClick={() => handleClose()} text="Cancel" />
         </div>
       </section>
     </div>

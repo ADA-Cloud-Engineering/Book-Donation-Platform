@@ -82,7 +82,7 @@ class Login extends Component {
               onClick={() => this.handleCheckForm()}
               loading={this.state.loading}
             />
-            <p>
+            <p className={styles.auth_other}>
               Don't have an account? <Link to="/register"> Register</Link>
             </p>
           </div>

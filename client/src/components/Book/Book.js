@@ -4,9 +4,9 @@ import styles from "./styles.module.css";
 const Book = ({ book }) => {
   return (
     <div className={styles.book}>
-      <Link to="/book-details" state={{ id: book.id }}>
+      <Link to="/book-details" state={{ id: book }}>
         <div className={styles.book_img}>
-          <img src={book.img} />
+          <img src={book.imageUrl} />
         </div>
         <div className={styles.book_details}>
           <p>
