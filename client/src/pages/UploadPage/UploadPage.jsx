@@ -118,7 +118,7 @@ export class UploadPage extends Component {
     this.weightRef = React.createRef();
     this.fileRef = React.createRef();
     this.imageRef = React.createRef();
-    this.state = { showModal: false, error: "" };
+    this.state = { showModal: false, error: "", loading: false };
   }
 
   async uploadCloudinaryFiles() {
@@ -177,6 +177,10 @@ export class UploadPage extends Component {
       this.setState({ error: "Please fill out all fields" });
       return;
     } else {
+      this.setState((state) => ({
+        ...state,
+        loading: true,
+      }));
       let { imageURL, fileURL } = await this.uploadCloudinaryFiles();
 
       let body = {
@@ -193,22 +197,7 @@ export class UploadPage extends Component {
         category: this.categoryRef.current.value,
         fileUrl: fileURL,
       };
-      // let formData = new FormData();
-      // formData.append("title", this.titleRef.current.value);
-      // formData.append("author", this.authorRef.current.value);
-      // formData.append("referencenumber", this.refNoRef.current.value);
-      // formData.append("format", this.formatRef.current.value);
-      // formData.append("language", this.languageRef.current.value);
-      // formData.append("isbn3", `ISBN:${this.isbnRef.current.value}`);
-      // formData.append(
-      //   "releasedate",
-      //   new Date(this.releaseDateRef.current.value).toISOString()
-      // );
-      // formData.append("publisher", this.publisherRef.current.value);
-      // formData.append("weight", this.weightRef.current.value);
-      // formData.append("imageUrl", imageURL);
-      // formData.append("category", this.categoryRef.current.value);
-      // formData.append("downloadurl", fileURL);
+
       let res = uploadInstance
         .post("/upload", body, {
           headers: { Authorization: `Bearer ${this.context.user_token}` },
@@ -224,7 +213,11 @@ export class UploadPage extends Component {
   setUserBooks(book) {
     let user_books = [...this.context.user_books, book];
     localStorage.setItem("books", JSON.stringify(user_books));
-    this.context.dispatch({ type: "SET_USER_BOOKS", user_books });
+    this.context.dispatch({ type: "SET_USER_BOOKS", payload: user_books });
+    this.setState((state) => ({
+      ...state,
+      loading: false,
+    }));
   }
 
   render() {
@@ -327,6 +320,7 @@ export class UploadPage extends Component {
           <p className={styles.errorText}>{this.state.error}</p>
           <Button
             text="Upload"
+            loading={this.state.loading}
             onClick={() => {
               this.handleUpload();
             }}

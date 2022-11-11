@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Banner from "../../components/Header/Banner";
 import Navbar from "../../components/Header/Navbar";
 import UserContext from "../../Contexts/UserContext";
@@ -24,11 +25,14 @@ const ProfilePage = () => {
         <div className={`${styles.section} ${styles.books_section}`}>
           <h3>My Donated Books</h3>
           <ul>
-            {user_books.map((book, index) => (
-              <li key={book._id}>
-                {index + 1} - {book.title}
-              </li>
-            ))}
+            {user_books &&
+              user_books?.map((book, index) => (
+                <li key={book._id}>
+                  <Link to="/book-details" state={{ id: book }}>
+                    {index + 1} - {book.title}
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
         <div className={`${styles.section} ${styles.books_section}`}>
