@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import Banner from "../../components/Header/Banner";
 import Navbar from "../../components/Header/Navbar";
+import UserContext from "../../Contexts/UserContext";
 import styles from "./styles.module.css";
 const ProfilePage = () => {
+  const { user_books } = useContext(UserContext);
+
   return (
     <div>
       <Navbar />
@@ -18,10 +21,17 @@ const ProfilePage = () => {
             <h3>Welcome, Jane Doe</h3>
           </div>
         </div>
-        <div className={`${styles.section}`}>
+        <div className={`${styles.section} ${styles.books_section}`}>
           <h3>My Donated Books</h3>
+          <ul>
+            {user_books.map((book, index) => (
+              <li key={book._id}>
+                {index + 1} - {book.title}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className={`${styles.section}`}>
+        <div className={`${styles.section} ${styles.books_section}`}>
           <h3>My Downloaded Books</h3>
         </div>
       </div>

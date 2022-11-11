@@ -10,20 +10,18 @@ import styles from "./styles.module.css";
 import { getAllBooks } from "../../Services/Book";
 
 const HomePage = () => {
-  const [books, setBooks] = useState(allBooks);
+  const [books, setBooks] = useState([]);
   const getBooksByCategory = (cat) => {
-    let filteredBooks = allBooks.filter((b) => {
-      return b.category === cat;
+    let filteredBooks = books.filter((b) => {
+      return b.category.toLowerCase() === cat.toLowerCase();
     });
     setBooks(filteredBooks);
   };
 
   const fetchBooks = async () => {
     let response = await getAllBooks();
-    console.log(response, "the response");
-    // fetch("https://bookcontribution.herokuapp.com/list")
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data));
+    let data = response.data.data;
+    setBooks(data);
   };
 
   useEffect(() => {
@@ -55,7 +53,7 @@ const HomePage = () => {
 
         <div className={styles.scrolling_row}>
           {books.map((book) => (
-            <Book book={book} key={book.id} />
+            <Book book={book} key={book._id} />
           ))}
         </div>
       </div>
@@ -65,7 +63,7 @@ const HomePage = () => {
         </div>
         <div className={styles.scrolling_row}>
           {recentBooks.map((book) => (
-            <Book book={book} key={book.id} />
+            <Book book={book} key={book._id} />
           ))}
         </div>
       </div>

@@ -13,9 +13,8 @@ const BookDetails = () => {
 
   useEffect(() => {
     let res = allBooks.find((b) => b.id === location.state.id);
-    setBook(res);
+    setBook(location.state.id);
   }, [location.state.id]);
-
   return (
     <div>
       <Navbar auth />
@@ -23,15 +22,17 @@ const BookDetails = () => {
       <div className={styles.book_container}>
         <div
           className={styles.book_container_img}
-          style={{ backgroundImage: `url(${book.img})` }}
-        />
+          style={{ backgroundImage: `url(${book.imageUrl})` }}
+        >
+          <img src={book.imageUrl} alt="book cover" style={{ width: "100%" }} />
+        </div>
         <div className={styles.book_details_container}>
           <h3>{book.title}</h3>
           <p>
             <span>Book By:</span>
             <span>{book.author}</span>
           </p>
-          <a href={book.dowmloadUrl} target="_blank">
+          <a href={book.downloadurl} target="_blank">
             <Button text="Download" />
           </a>
 
@@ -48,31 +49,30 @@ const BookDetails = () => {
             <div className={styles.book_details_details_info}>
               <p>
                 <span>Format</span>
-                <span>Paperback</span>
+                <span>{book.format}</span>
               </p>
               <p>
                 <span>Language</span>
-                <span>Paperback</span>
+                <span>{book.language}</span>
               </p>
               <p>
                 <span>ISBN</span>
-                <span>Paperback</span>
+                <span>{book.isbn3}</span>
               </p>
-              <p>
-                <span>ISBN13</span>
-                <span>Paperback</span>
-              </p>
+
               <p>
                 <span>Release Date</span>
-                <span>Paperback</span>
+                <span style={{ whiteSpace: "nowrap" }}>
+                  {new Date(book.releasedate).toDateString()}
+                </span>
               </p>
               <p>
                 <span>Publisher</span>
-                <span>Paperback</span>
+                <span>{book.publisher}</span>
               </p>
               <p>
-                <span>Date</span>
-                <span>Paperback</span>
+                <span>Weight</span>
+                <span>{book.weight}</span>
               </p>
             </div>
           </div>

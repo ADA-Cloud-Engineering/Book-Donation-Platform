@@ -25,3 +25,9 @@ h2 {
   display: flex;
   justify-content: flex-start;
 }
+.books_section {
+  display: block;
+}
+ul {
+  margin-top: 2rem;
+}

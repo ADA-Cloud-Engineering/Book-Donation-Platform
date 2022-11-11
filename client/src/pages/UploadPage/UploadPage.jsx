@@ -5,6 +5,7 @@ import {
 import Banner from "../../components/Header/Banner";
 import Navbar from "../../components/Header/Navbar";
 import Button from "../../components/Button/Button";
+import Modal from "../../components/Modal/Modal";
 import styles from "./styles.module.css";
 import { useState } from "react";
 // const UploadPage = () => {
@@ -97,6 +98,7 @@ import axios from "axios";
 import UserContext from "../../Contexts/UserContext";
 import { categories } from "../../Utils/data";
 import { baseURL, uploadInstance } from "../../Services/https";
+import { useNavigate } from "react-router";
 
 const instance = axios.create();
 
@@ -116,20 +118,49 @@ export class UploadPage extends Component {
     this.weightRef = React.createRef();
     this.fileRef = React.createRef();
     this.imageRef = React.createRef();
-    this.state = { isLogged: localStorage.getItem("user_token"), error: "" };
+    this.state = { showModal: false, error: "" };
   }
 
-  async uploadImage() {
-    const formData = new FormData();
-    const data = new FormData();
-    data.append("file", this.imageRef.current.files[0]);
-    data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_IMAGE_PRESET);
-    formData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
-    const res = await instance.post(process.env.REACT_APP_CLOUDINARY_URL, data);
-    return res.data.url;
+  async uploadCloudinaryFiles() {
+    const bookData = new FormData();
+    const imageData = new FormData();
+    //Images
+    imageData.append("file", this.imageRef.current.files[0]);
+    imageData.append(
+      "upload_preset",
+      process.env.REACT_APP_CLOUDINARY_IMAGE_PRESET
+    );
+    imageData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+    //Files
+    bookData.append("file", this.fileRef.current.files[0]);
+    bookData.append(
+      "upload_preset",
+      process.env.REACT_APP_CLOUDINARY_BOOK_PRESET
+    );
+    bookData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+    const [imageRes, bookRes] = await Promise.all([
+      instance.post(process.env.REACT_APP_CLOUDINARY_URL, imageData),
+      instance.post(process.env.REACT_APP_CLOUDINARY_URL, bookData),
+    ]);
+    let response = {
+      imageURL: imageRes.data.url,
+      fileURL: bookRes.data.url,
+    };
+    return response;
   }
+
   async handleUpload() {
-    this.setState({ error: "" });
+    this.setState((state) => ({
+      ...state,
+      error: "",
+    }));
+    if (!this.context.isLogged) {
+      this.setState((state) => ({
+        ...state,
+        showModal: true,
+      }));
+      return;
+    }
     if (
       !this.titleRef.current.value ||
       !this.languageRef.current.value ||
@@ -140,35 +171,62 @@ export class UploadPage extends Component {
       !this.publisherRef.current.value ||
       !this.refNoRef.current.value ||
       !this.categoryRef.current.value ||
-      !this.fileRef.current.files[0].name ||
-      !this.imageRef.current.files[0].name
+      !this.fileRef.current.files[0]?.name ||
+      !this.imageRef.current.files[0]?.name
     ) {
       this.setState({ error: "Please fill out all fields" });
       return;
     } else {
-      let imageURL = await this.uploadImage();
-      let formData = new FormData();
-      formData.append("title", this.titleRef.current.value);
-      formData.append("author", this.authorRef.current.value);
-      formData.append("referencenumber", this.refNoRef.current.value);
-      formData.append("format", this.formatRef.current.value);
-      formData.append("language", this.languageRef.current.value);
-      formData.append("isbn3", this.isbnRef.current.value);
-      formData.append(
-        "releasedate",
-        new Date(this.releaseDateRef.current.value).toISOString()
-      );
-      formData.append("publisher", this.publisherRef.current.value);
-      formData.append("weight", this.weightRef.current.value);
-      formData.append("imageUrl", imageURL);
-      formData.append("category", this.categoryRef.current.value);
-      formData.append("downloadurl", this.fileRef.current.files[0]);
+      let { imageURL, fileURL } = await this.uploadCloudinaryFiles();
+
+      let body = {
+        title: this.titleRef.current.value,
+        author: this.authorRef.current.value,
+        referencenumber: this.refNoRef.current.value,
+        format: this.formatRef.current.value,
+        language: this.languageRef.current.value,
+        isbn3: `ISBN:${this.isbnRef.current.value}`,
+        releasedate: new Date(this.releaseDateRef.current.value).toISOString(),
+        publisher: this.publisherRef.current.value,
+        weight: this.weightRef.current.value,
+        imageUrl: imageURL,
+        category: this.categoryRef.current.value,
+        fileUrl: fileURL,
+      };
+      // let formData = new FormData();
+      // formData.append("title", this.titleRef.current.value);
+      // formData.append("author", this.authorRef.current.value);
+      // formData.append("referencenumber", this.refNoRef.current.value);
+      // formData.append("format", this.formatRef.current.value);
+      // formData.append("language", this.languageRef.current.value);
+      // formData.append("isbn3", `ISBN:${this.isbnRef.current.value}`);
+      // formData.append(
+      //   "releasedate",
+      //   new Date(this.releaseDateRef.current.value).toISOString()
+      // );
+      // formData.append("publisher", this.publisherRef.current.value);
+      // formData.append("weight", this.weightRef.current.value);
+      // formData.append("imageUrl", imageURL);
+      // formData.append("category", this.categoryRef.current.value);
+      // formData.append("downloadurl", fileURL);
       let res = uploadInstance
-        .post("/upload", formData)
-        .then((response) => {})
-        .then((res) => console.log(res, "the then again"));
+        .post("/upload", body, {
+          headers: { Authorization: `Bearer ${this.context.user_token}` },
+        })
+        .then((response) => response)
+        .then((res) => {
+          this.setUserBooks(res.data.data);
+          alert("Book uploaded");
+          this.props.changeKey();
+        });
     }
   }
+  setUserBooks(book) {
+    let user_books = [...this.context.user_books, book];
+    localStorage.setItem("books", JSON.stringify(user_books));
+    this.context.dispatch({ type: "SET_USER_BOOKS", user_books });
+  }
+
   render() {
     return (
       <div>
@@ -265,7 +323,7 @@ export class UploadPage extends Component {
             placeholder="Weight"
           />
         </div>
-        <div className={styles.upload_page_container}>
+        <div className={styles.upload_page_actions}>
           <p className={styles.errorText}>{this.state.error}</p>
           <Button
             text="Upload"
@@ -274,9 +332,32 @@ export class UploadPage extends Component {
             }}
           />
         </div>
+        {this.state.showModal && (
+          <Modal
+            handleClose={() => {
+              this.setState((state) => ({
+                ...state,
+                showModal: false,
+              }));
+            }}
+            show={this.state.showModal}
+            message="Please login to continue"
+            doAction={() => this.props.navigate("/login")}
+            doActionMessage="Login"
+          />
+        )}
       </div>
     );
   }
 }
 
-export default UploadPage;
+export const UploadPageWithRouter = () => {
+  const [key, setKey] = useState(Math.random() * 999);
+  const navigate = useNavigate();
+
+  const changeKey = () => {
+    setKey(Math.random() * 999);
+  };
+  return <UploadPage navigate={navigate} key={key} changeKey={changeKey} />;
+};
+export default UploadPageWithRouter;
