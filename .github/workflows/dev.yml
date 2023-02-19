@@ -1,0 +1,47 @@
+name: Development
+on: [pull_request]
+jobs: 
+  test: 
+    name: UI test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: "checkout repository"
+        uses: actions/checkout@v2
+
+      - name: "setup node"
+        uses: actions/setup-node@v2.1.5
+        with: 
+          node-version: 16
+
+      - name: "install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "install dependencies"
+        uses: bahmutov/npm-install@v1
+
+      - name: "Run tests"
+        working-directory: ./client
+        run: npm run test  --if-present
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "check out git repository"
+        uses: actions/checkout@v2
+
+      - name: "setup node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      # Prettier must be in `package.json`
+      - name: "install Node.js dependencies"
+        run: npm ci
+
+      - name: "run linters"
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: false
+          prettier: true
