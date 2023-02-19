@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Button from './components/Button/Button';
-import Book from './components/Book/Book';
+// import Book from './components/Book/Book';
 
-const bookDetails = {
-  title: 'purple hibiscus',
-  author: 'chimamda adichie',
-  donated_by: 'jon doe'
-}
+// const bookDetails = {
+//   title: 'purple hibiscus',
+//   author: 'chimamda adichie',
+//   donated_by: 'jon doe'
+// }
 
 // test for button component
 test('renders Donate button', () => {
